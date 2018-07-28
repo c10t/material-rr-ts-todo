@@ -11,7 +11,7 @@ import * as React from "react";
 
 const styles = createStyles({
   paper: {
-    margin: 10,
+    padding: 10,
   },
   root: {
     padding: 10,

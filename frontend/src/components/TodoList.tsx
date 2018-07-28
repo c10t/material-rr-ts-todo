@@ -1,7 +1,23 @@
+import { createStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
+import { WithStyles } from "@material-ui/core";
+import List from "@material-ui/core/List";
+
 import * as React from "react";
 
 import * as State from "../states/TodoState";
 import Todo from "./Todo";
+
+const styles = createStyles({
+  list: {
+    padding: 10,
+  },
+  root: {
+    padding: 0,
+  },
+});
+
+type ClassNames = keyof typeof styles;
 
 export interface ITodoListProps {
   todos: State.Todos;
@@ -12,13 +28,14 @@ function assignHandler(on: (id: number) => void, id: number) {
    return () => on(id)
 }
 
-const TodoList: React.SFC<ITodoListProps> = (props) => {
-  const { todos, onTodoClick } = props;
+export const TodoList: React.SFC<ITodoListProps> = 
+  (props: ITodoListProps & WithStyles<ClassNames>) => {
+  const { classes, todos, onTodoClick } = props;
   return (
-    <ul>
+    <List className={classes.list}>
       {todos.map(t => <Todo key={t.id} {...t} onClick={assignHandler(onTodoClick, t.id)}/>)}
-    </ul>
+    </List>
   )
 }
 
-export default TodoList;
+export default withStyles<{} & ClassNames>(styles)<ITodoListProps>(TodoList);
