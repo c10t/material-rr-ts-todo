@@ -1,0 +1,29 @@
+version: "3"
+services:
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_HOST: sleepyhollow
+      MYSQL_PASS: password
+    depends_on:
+      - "mysql"
+    ports:
+      - "3000:3000"
+    links:
+      - "mysql"
+  mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    command: mysqld --character-set-server=utf8 --explicit_defaults_for_timestamp=1
+    volumes:
+      - "./mysql/tmp:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: muitodo
+      MYSQL_ROOT_PASSWORD: password
+      TZ: "Asia/Tokyo"
+    ports:
+      - "3306:3306"
+      
